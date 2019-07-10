@@ -5,6 +5,7 @@ import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
+import SignIn from './components/SignIn/SignIn';
 import './App.css';
 
 const app = new Clarifai.App({
@@ -29,7 +30,8 @@ class App extends Component {
     this.state = {
       input: '',
       imageUrl: '',
-      box: {}
+      box: {},
+      route: 'signin'
     }
   }
 
@@ -46,13 +48,9 @@ class App extends Component {
 
   calculateFaceLocation = (data) => {
     const face = data.outputs[0].data.regions[0].region_info.bounding_box;
-    console.log('face');
-    console.log(face);
     const image = document.getElementById('inputImage');
     const width = Number(image.width);
     const height = Number(image.height);
-    console.log(width);
-    console.log(height);    
     return {
       leftCol: face.left_col * width,
       topRow: face.top_row * height,
@@ -63,18 +61,25 @@ class App extends Component {
 
   displayFaceBox = (box) => {
     this.setState({box: box});
-    console.log('box');
-    console.log(this.state.box);
+  }
+
+  onRouteChange = (route) => {
+    this.setState({route: route});
   }
 
   render() {
     return (
       <div className="App">
         <Particles className='particles' params={particlesOptions} />
-        <Navigation />
-        <Logo />
-        <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />
-        <FaceRecognition imageUrl={this.state.imageUrl} box={this.state.box} />
+        <Navigation onRouteChange={this.onRouteChange} />
+        { this.state.route === 'signin' 
+          ? <SignIn onRouteChange={this.onRouteChange} />
+          : <div>
+              <Logo />
+              <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />
+              <FaceRecognition imageUrl={this.state.imageUrl} box={this.state.box} />
+            </div>
+        }
       </div>
     );
   }
