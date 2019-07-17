@@ -29,7 +29,6 @@ class SignIn extends React.Component {
 		.then(response => response.json())
 		.then(data => {
 			if (data === 'success') {
-				console.log('success!');
 				this.props.onRouteChange('home');
 			}
 		});
