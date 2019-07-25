@@ -47,7 +47,7 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({imageUrl: this.state.input});
-    fetch('http://localhost:3000/detect', {
+    fetch('shrouded-earth-88075.herokuapp.com/detect', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
