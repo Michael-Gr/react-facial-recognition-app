@@ -57,7 +57,6 @@ class App extends Component {
     .then(response => response.json())
     .then(response => {
       response.outputs[0].data.regions.forEach((region) => {
-        console.log(region);
         this.displayFaceBox(this.calculateFaceLocation(region))
       });
     })
