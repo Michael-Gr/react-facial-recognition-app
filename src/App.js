@@ -23,7 +23,7 @@ const particlesOptions = {
 const initialState = {
   input: '',
   imageUrl: '',
-  box: {},
+  boxes: [],
   route: 'signin',
   isSignedIn: false,
   user: {
@@ -55,12 +55,17 @@ class App extends Component {
       })
     })
     .then(response => response.json())
-    .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+    .then(response => {
+      response.outputs[0].data.regions.forEach((region) => {
+        console.log(region);
+        this.displayFaceBox(this.calculateFaceLocation(region))
+      });
+    })
     .catch(err => console.log(err));
   }
 
   calculateFaceLocation = (data) => {
-    const face = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const face = data.region_info.bounding_box;
     const image = document.getElementById('inputImage');
     const width = Number(image.width);
     const height = Number(image.height);
@@ -73,7 +78,9 @@ class App extends Component {
   }
 
   displayFaceBox = (box) => {
-    this.setState({box: box});
+    const boxes = this.state.boxes;
+    boxes.push(box);
+    this.setState({boxes: boxes});
   }
 
   onRouteChange = (route) => {
@@ -98,7 +105,7 @@ class App extends Component {
   }
 
   render() {
-    const { isSignedIn, imageUrl, route, box } = this.state;
+    const { isSignedIn, imageUrl, route, boxes } = this.state;
     return (
       <div className="App">
         <Particles className='particles' params={particlesOptions} />
@@ -107,7 +114,7 @@ class App extends Component {
           ? <div>
               <Logo />
               <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />
-              <FaceRecognition imageUrl={imageUrl} box={box} />
+              <FaceRecognition imageUrl={imageUrl} boxes={boxes} />
             </div>
           : ( route === 'register'
               ? <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
