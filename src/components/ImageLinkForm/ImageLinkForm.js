@@ -4,6 +4,9 @@ import  './ImageLinkForm.css';
 const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
 	return (
 		<div>
+			<p className='f1' >
+				{'Face Finder'}
+			</p>
 			<p className='f3' >
 				{'This tool detects faces in photographs by using machine learning. Upload a picture to give it a try!'}
 			</p>
