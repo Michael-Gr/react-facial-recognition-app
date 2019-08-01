@@ -8,7 +8,7 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
 				{'Face Finder'}
 			</p>
 			<p className='f3' >
-				{'This tool detects faces in photographs by using machine learning. Upload a picture to give it a try!'}
+				{'This tool detects faces in photographs by using machine learning. Paste in a URL to a picture to give it a try!'}
 			</p>
 			<div className='center' >
 				<div className='pa4 br3 shadow-5 center form' >
