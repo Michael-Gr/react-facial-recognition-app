@@ -39,6 +39,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = initialState;
+    fetch('https://shrouded-earth-88075.herokuapp.com/');
   }
 
   onInputChange = (event) => {
@@ -112,7 +113,7 @@ class App extends Component {
         { route === 'home' 
           ? <div>
               <Logo />
-              <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />
+              <ImageLinkForm name={this.state.user.name} onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />
               <FaceRecognition imageUrl={imageUrl} boxes={boxes} />
             </div>
           : ( route === 'register'
